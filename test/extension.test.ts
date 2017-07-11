@@ -10,13 +10,44 @@ import * as assert from 'assert';
 // as well as import your extension to test it
 import * as vscode from 'vscode';
 import * as myExtension from '../src/extension';
+import { insertSemicolon, getIndentString } from "../src/extension";
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Extension Tests", () => {
 
-    // Defines a Mocha unit test
-    test("Something 1", () => {
-        assert.equal(-1, [1, 2, 3].indexOf(5));
-        assert.equal(-1, [1, 2, 3].indexOf(0));
+    test('Inserting Semicolon', () => {
+        // Inserting semicolon where there isn't one
+        // Basic insertion
+        assert.equal('text without semicolon;', insertSemicolon('text without semicolon'));
+
+        // Insertion with new line
+        assert.equal('text without semicolon;\n', insertSemicolon('text without semicolon', true));
+
+        // Insertion with new line and indentation
+        assert.equal('\ttext without semicolon;\n\t', insertSemicolon('\ttext without semicolon', true));
+
+        // Insertion with indentation but without new line
+        assert.equal('\ttext without semicolon;', insertSemicolon('\ttext without semicolon'));
+
+
+        // Inserting semicolon where there is one
+        // Basic insertion
+        assert.equal('text without semicolon;', insertSemicolon('text without semicolon;'));
+
+        // Insertion with new line
+        assert.equal('text without semicolon;\n', insertSemicolon('text without semicolon;', true));
+
+        // Insertion with new line and indentation
+        assert.equal('\ttext without semicolon;\n\t', insertSemicolon('\ttext without semicolon;', true));
+
+        // Insertion with indentation but without new line
+        assert.equal('\ttext without semicolon;', insertSemicolon('\ttext without semicolon;'));
+    });
+
+    test('Getting indentation', () => {
+        assert.equal('\t\t', getIndentString('\t\tGet my indentation'));
+        assert.equal('   ', getIndentString('   Get my indentation'));
+        assert.equal('  ', getIndentString('  Get my indentation'));
+        assert.equal('   \t    ', getIndentString('   \t    Get my indentation'));
     });
 });
