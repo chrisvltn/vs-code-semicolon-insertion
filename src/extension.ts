@@ -8,41 +8,53 @@ import { Disposable, TextEditor, TextDocument, Selection, TextEditorEdit, TextLi
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-    let runInsertion = (newLine: boolean): void => {
-        let editor: TextEditor = vscode.window.activeTextEditor;
-        let selections: Selection[] = editor.selections;
-        var doc: TextDocument = editor.document;
+	let runInsertion = (newLine: boolean): void => {
+		let editor: TextEditor = vscode.window.activeTextEditor;
+		let selections: Selection[] = editor.selections;
+		var doc: TextDocument = editor.document;
 
-        editor.edit(function (edit: TextEditorEdit): void {
-            selections.forEach((selection: Selection, index: number) => {
-                for (let i = selection.start.line; i <= selection.end.line; i++) {
-                    let selLine: TextLine = doc.lineAt(i);
-                    let insertPos: Range = selLine.range;
-                    let insertLineText: string = selLine.text;
+		editor.edit(function (edit: TextEditorEdit): void {
+			selections.forEach((selection: Selection, index: number) => {
+				for (let i = selection.start.line; i <= selection.end.line; i++) {
+					let selLine: TextLine = doc.lineAt(i);
+					let insertPos: Range = selLine.range;
+					let insertLineText: string = selLine.text;
 
-                    edit.replace(insertPos, insertSemicolon(insertLineText, newLine))
+					// Insert semicolon, if it needs it
+					edit.replace(insertPos, insertSemicolon(insertLineText, newLine));
+				}
+			});
 
-                    if (newLine) {
-                        // Move cursor to the next line
-                        setTimeout(() => {
-                            editor.selection = new Selection(doc.lineAt(i + 1).range.end, doc.lineAt(i + 1).range.end);
-                        }, 50);
-                    }
-                }
-            });
-        });
-    };
+			if (newLine) {
+				// Move cursor to the next line
+				setTimeout(() => {
+					vscode.commands.executeCommand("cursorMove", {
+						to: "down",
+						by: "wrappedLine",
+						select: false,
+						value: 1
+					}).then(() => {
+						vscode.commands.executeCommand("cursorMove", {
+							to: "wrappedLineEnd",
+							by: "wrappedLine",
+							select: false
+						})
+					});
+				}, 50);
+			}
+		});
+	};
 
-    let disposables: Disposable[] = [
-        vscode.commands.registerCommand('extension.insertSemicolon', () => {
-            runInsertion(false);
-        }),
-        vscode.commands.registerCommand('extension.insertSemicolonWithNewLine', () => {
-            runInsertion(true);
-        })
-    ];
+	let disposables: Disposable[] = [
+		vscode.commands.registerCommand('extension.insertSemicolon', () => {
+			runInsertion(false);
+		}),
+		vscode.commands.registerCommand('extension.insertSemicolonWithNewLine', () => {
+			runInsertion(true);
+		})
+	];
 
-    disposables.forEach((disposable: Disposable) => context.subscriptions.push(disposable));
+	disposables.forEach((disposable: Disposable) => context.subscriptions.push(disposable));
 }
 
 // this method is called when your extension is deactivated
@@ -55,10 +67,12 @@ export function deactivate() {
  * @param newLine If it will add a new line at the end
  */
 export function insertSemicolon(str: string, newLine: boolean = false): string {
-    if (!str.trim().length || str.trim().split('').pop() == ';') return str;
+	let indentString: string = getIndentString(str);
+	let line = (newLine ? '\n' + indentString : '');
 
-    let indentString: string = getIndentString(str);
-    return indentString + str.trim() + ';' + (newLine ? '\n' + indentString : '');
+	return (!str.trim().length || str.trim().split('').pop() == ';') ?
+		str + line :
+		indentString + str.trim() + ';' + line;
 };
 
 /**
@@ -66,5 +80,5 @@ export function insertSemicolon(str: string, newLine: boolean = false): string {
  * @param str String to get the indentation text
  */
 export function getIndentString(str: string): string {
-    return (str.match(/^\s+/) || ['']).shift();
+	return (str.match(/^\s+/) || ['']).shift();
 }
