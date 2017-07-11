@@ -1,0 +1,53 @@
+{
+    "name": "vs-code-semicolon-insertion",
+    "displayName": "vs-code-semicolon-insertion",
+    "description": "Adds a shortcut to insert semicolon at the end of the line",
+    "version": "0.0.1",
+    "publisher": "chrisvltn",
+    "engines": {
+        "vscode": "^1.13.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:extension.insertSemicolon",
+        "onCommand:extension.insertSemicolonWithNewLine"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.insertSemicolon",
+                "title": "Insert semicolon"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.insertSemicolon",
+                "key": "ctrl+shift+[",
+                "mac": "cmd+shift+[",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "extension.insertSemicolonWithNewLine",
+                "key": "ctrl+shift+5",
+                "mac": "cmd+shift+5",
+                "when": "editorTextFocus"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "tsc -p ./",
+        "compile": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.0.3",
+        "vscode": "^1.0.0",
+        "mocha": "^2.3.3",
+        "@types/node": "^6.0.40",
+        "@types/mocha": "^2.2.32"
+    }
+}
