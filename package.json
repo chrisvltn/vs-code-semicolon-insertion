@@ -1,9 +1,9 @@
 {
     "name": "vs-code-semicolon-insertion",
-    "displayName": "vs-code-semicolon-insertion",
+    "displayName": "Semicolon insertion shortcut",
     "description": "Adds a shortcut to insert semicolon at the end of the line",
     "icon": "images/icon.png",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "chrisvltn",
     "engines": {
         "vscode": "^1.13.0"
