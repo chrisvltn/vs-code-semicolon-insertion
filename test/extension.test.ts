@@ -32,16 +32,16 @@ suite("Extension Tests", () => {
 
         // Inserting semicolon where there is one
         // Basic insertion
-        assert.equal('text without semicolon;', insertSemicolon('text without semicolon;'));
+        assert.equal('text with semicolon;', insertSemicolon('text with semicolon;'));
 
         // Insertion with new line
-        assert.equal('text without semicolon;\n', insertSemicolon('text without semicolon;', true));
+        assert.equal('text with semicolon;', insertSemicolon('text with semicolon;', true));
 
         // Insertion with new line and indentation
-        assert.equal('\ttext without semicolon;\n\t', insertSemicolon('\ttext without semicolon;', true));
+        assert.equal('\ttext with semicolon;', insertSemicolon('\ttext with semicolon;', true));
 
-        // Insertion with indentation but without new line
-        assert.equal('\ttext without semicolon;', insertSemicolon('\ttext without semicolon;'));
+        // Insertion with indentation but with new line
+        assert.equal('\ttext with semicolon;', insertSemicolon('\ttext with semicolon;'));
     });
 
     test('Getting indentation', () => {
