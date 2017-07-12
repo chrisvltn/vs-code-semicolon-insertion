@@ -3,7 +3,7 @@
     "displayName": "Semicolon Insertion Shortcut",
     "description": "Adds a shortcut to insert semicolon at the end of the line",
     "icon": "images/icon.png",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "publisher": "chrisvltn",
     "engines": {
         "vscode": "^1.13.0"
@@ -27,20 +27,23 @@
     ],
     "main": "./out/src/extension",
     "contributes": {
-        "commands": [{
-            "command": "extension.insertSemicolon",
-            "title": "Insert semicolon"
-        }],
-        "keybindings": [{
+        "commands": [
+            {
                 "command": "extension.insertSemicolon",
-                "key": "ctrl+shift+oem_2",
-                "mac": "cmd+shift+oem_2",
+                "title": "Insert semicolon"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.insertSemicolon",
+                "key": "ctrl+oem_2",
+                "mac": "cmd+oem_2",
                 "when": "editorTextFocus"
             },
             {
                 "command": "extension.insertSemicolonWithNewLine",
-                "key": "ctrl+oem_2",
-                "mac": "cmd+oem_2",
+                "key": "ctrl+shift+oem_2",
+                "mac": "cmd+shift+oem_2",
                 "when": "editorTextFocus"
             }
         ]
