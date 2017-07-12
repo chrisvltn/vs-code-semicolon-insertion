@@ -17,4 +17,4 @@ Press `ctrl+shift+;` to insert the semicolon at the end of the line and create a
 If you don't like shorcuts, use the command `Insert semicolon`, by pressing `ctrl+shift+p` and typing it.
 
 ## LICENSE
-See [License](LICENSE) file.
+See [License](LICENSE.md) file.
