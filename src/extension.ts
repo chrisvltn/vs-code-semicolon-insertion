@@ -24,23 +24,21 @@ export function activate(context: vscode.ExtensionContext) {
 					edit.replace(insertPos, insertSemicolon(insertLineText, newLine));
 				}
 			});
-
+		}).then(() => {
 			if (newLine) {
 				// Move cursor to the next line
-				setTimeout(() => {
+				vscode.commands.executeCommand("cursorMove", {
+					to: "down",
+					by: "wrappedLine",
+					select: false,
+					value: 1
+				}).then(() => {
 					vscode.commands.executeCommand("cursorMove", {
-						to: "down",
+						to: "wrappedLineEnd",
 						by: "wrappedLine",
-						select: false,
-						value: 1
-					}).then(() => {
-						vscode.commands.executeCommand("cursorMove", {
-							to: "wrappedLineEnd",
-							by: "wrappedLine",
-							select: false
-						})
+						select: false
 					});
-				}, 50);
+				});
 			}
 		});
 	};
@@ -67,12 +65,10 @@ export function deactivate() {
  * @param newLine If it will add a new line at the end
  */
 export function insertSemicolon(str: string, newLine: boolean = false): string {
-	let indentString: string = getIndentString(str);
-	let line = (newLine ? '\n' + indentString : '');
+	if (!str.trim().length || str.trim().split('').pop() == ';') return str;
 
-	return (!str.trim().length || str.trim().split('').pop() == ';') ?
-		str + line :
-		indentString + str.trim() + ';' + line;
+	let indentString: string = getIndentString(str);
+	return indentString + str.trim() + ';' + (newLine ? '\n' + indentString : '');
 };
 
 /**
