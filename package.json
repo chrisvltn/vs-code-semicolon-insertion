@@ -3,7 +3,7 @@
     "displayName": "Semicolon Insertion Shortcut",
     "description": "Adds a shortcut to insert semicolon at the end of the line",
     "icon": "images/icon.png",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "publisher": "chrisvltn",
     "engines": {
         "vscode": "^1.13.0"
@@ -24,6 +24,13 @@
     "activationEvents": [
         "onCommand:extension.insertSemicolon",
         "onCommand:extension.insertSemicolonWithNewLine"
+    ],
+    "keywords": [
+        "semicolon",
+        "insertion",
+        "keymap",
+        "shortcut",
+        "netbeans"
     ],
     "main": "./out/src/extension",
     "contributes": {
