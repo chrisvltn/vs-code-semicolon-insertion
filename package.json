@@ -43,14 +43,14 @@
         "keybindings": [
             {
                 "command": "extension.insertSemicolon",
-                "key": "ctrl+oem_2",
-                "mac": "cmd+oem_2",
+                "key": "ctrl+[Semicolon]",
+                "mac": "cmd+[Semicolon]",
                 "when": "editorTextFocus"
             },
             {
                 "command": "extension.insertSemicolonWithNewLine",
-                "key": "ctrl+shift+oem_2",
-                "mac": "cmd+shift+oem_2",
+                "key": "ctrl+shift+[Semicolon]",
+                "mac": "cmd+shift+[Semicolon]",
                 "when": "editorTextFocus"
             }
         ]
